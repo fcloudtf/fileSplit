@@ -23,6 +23,7 @@ namespace FileSplit
         Tool T = Tool.T();          //功能函数
         string[] OpendFilesName;    //待处理的文件
         long fileLen = 0;           //待处理文件的总大小
+        string tittle = "FileSplit";//工具名称
 
         public Form1()
         {
@@ -72,11 +73,16 @@ namespace FileSplit
             }
 
             label3.Text = "文件总大小： " + new FileLen(fileLen).Str;//显示拖入的文件总大小
+            T.setProgress(progressBar1, fileLen);                   //进度条设置，用于显示进度
 
             //默认设置
             radioButton1.Checked = true;              
             radioButton_CheckedChanged(null, null);
             textBox1_TextChanged(null, null);
+            radioButton2.Checked = true;
+
+            //拖入文件，展现操作界面
+            if (fileLen > 0) pictureBox1.Visible = false;
         }
 
         //--------------------文件分割与合并---------------------------------------------------
@@ -85,22 +91,28 @@ namespace FileSplit
         /// </summary>
         private void button2_Click(object sender, EventArgs e)
         {
+            int change = checkBox2.Checked ? (int)parse(textBox3.Text, 123) : 123;   //加密、解密密匙， 123为默认密匙
+
+            this.Text = tittle + " - 文件分割中...";
             //文件分割
             if (radioButton1.Checked)   //按指定份数进行分割
             {
                 int subNum = (int)parse(textBox1.Text, 2);
-                T.fileSplit(OpendFilesName, subNum, checkBox1.Checked, Int32.Parse(textBox3.Text.Trim()));
+                T.fileSplit(OpendFilesName, subNum, checkBox1.Checked, change);
             }
             else
             {                           //按指定文件大小进行分割
                 float num = parse(textBox2.Text, fileLen / 2);
-                long size = new FileLen(num, comboBox1.SelectedItem.ToString()).Len;  
-                T.fileSplit(OpendFilesName, size, checkBox1.Checked, Int32.Parse(textBox3.Text.Trim()));
+                long size = new FileLen(num, comboBox1.SelectedItem.ToString()).Len;
+                T.fileSplit(OpendFilesName, size, checkBox1.Checked, change);
             }
+            this.Text = tittle;
 
             //清空操作文件列表
-            listBox1.Items.Clear();     
+            listBox1.Items.Clear();
+            fileLen = 0;
             label3.Text = "";
+            pictureBox1.Visible = true;
         }
 
         /// <summary>
@@ -108,15 +120,21 @@ namespace FileSplit
         /// </summary>
         private void button3_Click(object sender, EventArgs e)
         {
+            int change = checkBox2.Checked ? (int)parse(textBox3.Text, 123) : 123;   //加密、解密密匙， 123为默认密匙
+
+            this.Text = tittle + " - 文件合并中...";
             //文件合并
-            T.fileCombine(GroupByName(OpendFilesName), checkBox1.Checked, -Int32.Parse(textBox3.Text.Trim()));
+            T.fileCombine(GroupByName(OpendFilesName), checkBox1.Checked, -change);
+            this.Text = tittle;
 
             //清空操作文件列表
             listBox1.Items.Clear();
+            fileLen = 0;
             label3.Text = "";
+            pictureBox1.Visible = true;
         }
 
-        //--------------------文件名分组排序---------------------------------------------------
+        //-----------------------------------------------------------------------
         /// <summary>
         /// 将给定的子文件名，按前缀进行分组、计数
         /// 子文件名形如:"sci_android.rar@_1.split", 前缀sci_android
@@ -159,9 +177,32 @@ namespace FileSplit
             return str;
         }
 
-        private void label3_Click(object sender, EventArgs e)
+        /// <summary>
+        /// 仅允许输入，数字、 Backspace
+        /// </summary>
+        private void onlyNumberInput(object sender, KeyPressEventArgs e)
         {
+            int key = Convert.ToInt32(e.KeyChar);
+            if (!(48 <= key && key <= 58 || key == 8)) //数字、Backspace
+            {
+                this.Text = tittle + " - keyChar:" + key.ToString();
+                e.Handled = true;
+            }
+            else this.Text = tittle;
+        }
 
+        /// <summary>
+        /// 仅允许输入，数字、 '.'、 Backspace
+        /// </summary>
+        private void onlyNumberInput2(object sender, KeyPressEventArgs e)
+        {
+            int key = Convert.ToInt32(e.KeyChar);
+            if (!(48 <= key && key <= 58 || key == 46 || key == 8)) //数字、 '.'、 Backspace
+            {
+                this.Text = tittle + " - keyChar:" + key.ToString();
+                e.Handled = true;
+            }
+            else this.Text = tittle;
         }
 
         //将字符串转化为浮点型数据，并在转化失败时提供一个默认值
@@ -211,6 +252,20 @@ namespace FileSplit
                 FileLen tmp = new FileLen(parse(textBox2.Text, fileLen), comboBox1.SelectedItem.ToString());
                 textBox1.Text = (fileLen / tmp.Len + (fileLen % tmp.Len > 0 ? 1 : 0)).ToString();
             }
+        }
+
+        /// <summary>
+        /// 打开，开源资源链接地址
+        /// </summary>
+        private void LinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://git.oschina.net/scimence/fileSplit");
+
+            //创建新的进程，打开指定网页
+            //System.Diagnostics.Process process = new System.Diagnostics.Process();
+            //process.StartInfo.FileName = "iexplore.exe";            //IE浏览器，可以更换
+            //process.StartInfo.Arguments = "http://www.baidu.com";
+            //process.Start();
         }
     }
 }

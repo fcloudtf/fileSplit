@@ -12,6 +12,21 @@ namespace FileSplit
 {
     class Tool
     {
+        private ProgressBar Progress;       //用于显示文件分割或合并的进度
+        private long FileLen;               //待处理的文件总大小
+        private long curLen;                //当前处理的文件大小
+        /// <summary>
+        /// 设置用于显示操作进度的进度条，和待处理文件的总大小
+        /// </summary>
+        public void setProgress(ProgressBar progress, long fileLen)
+        {
+            Progress = progress;
+            Progress.Maximum = 1000;
+            FileLen = fileLen;
+            curLen = 0;
+            progress.Value = 0;
+        }
+
         static Tool Instance;
         /// <summary>
         /// 提供当前类的一个静态实例对象
@@ -103,6 +118,7 @@ namespace FileSplit
                 //创建分割后的子文件，已有则覆盖，子文件"D:\\1.rar@_1.split"
                 if (len == 0) FileOut = new FileStream(fileIn + "@_" + I++ + ".split", FileMode.Create);
                 len += readLen;              //累计读取的文件大小
+                curLen += readLen;           //当前处理进度
 
                 //加密逻辑,对data的首字节进行逻辑偏移加密
                 if (num == 0) num = change;
@@ -118,11 +134,14 @@ namespace FileSplit
 
                 //预读下一轮缓存数据
                 readLen = FileIn.Read(data, 0, data.Length);
-                if (len >= KBlen || readLen == 0)     //子文件达到指定大小，或文件已读完
+                if (len >= KBlen || readLen == 0)       //子文件达到指定大小，或文件已读完
                 {
                     FileOut.Close();                    //关闭当前输出流
                     len = 0;
                 }
+
+                //显示处理进度
+                if (Progress != null) Progress.Value = (int)(curLen / FileLen * Progress.Maximum);
             }
 
             FileIn.Close();                             //关闭输入流
@@ -210,6 +229,10 @@ namespace FileSplit
                     //输出，缓存数据写入文件
                     FileOut.Write(data, 0, readLen);
                     FileOut.Flush();
+
+                    //显示处理进度
+                    curLen += readLen;           //当前处理进度
+                    if (Progress != null) Progress.Value = (int)(curLen / FileLen * Progress.Maximum);
                 }
 
                 //关闭输入流，删除源文件
