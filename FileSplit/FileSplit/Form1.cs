@@ -79,7 +79,6 @@ namespace FileSplit
             radioButton1.Checked = true;              
             radioButton_CheckedChanged(null, null);
             textBox1_TextChanged(null, null);
-            radioButton2.Checked = true;
 
             //拖入文件，展现操作界面
             if (fileLen > 0) pictureBox1.Visible = false;
