@@ -1,4 +1,4 @@
-服务器资源目录(https://gitee.com/scimence/fileSplit/raw/master/)
+﻿服务器资源目录(https://gitee.com/scimence/fileSplit/raw/master/)
 本地资源目录(E:\tmp\fileSplit\)
 
 待更新文件(
@@ -6,7 +6,8 @@
 .gitignore(27f4959052307ad8478fe6ca5aa7dec6)
 fileSplit.exe(992a87e43d80ae11b5dd4933ce693229)
 LICENSE(836e0aa7ec7a55f65434733bf980975)
-README.md(e133df0977d9baf4be250b84d0ac65d5)
+note.html(2db692e52dec574db1c0b22aae0d07a8)
+README.md(bdd7cf16fda3d00cefec1e40704c54c)
 files/fileSplit_20180830.7z.zip(8ba1b237bc68e98794796340349ec2cf)
 
 )待更新文件

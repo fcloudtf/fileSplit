@@ -1,4 +1,4 @@
-
+﻿
 # FileSplit 文件分割工具
 
 ##  功能：
@@ -23,4 +23,4 @@
 scimence
 
 
-[FileSplit.exe 工具下载 ](https://scimence.gitee.io/filesplit/FileSplit.exe)
+[FileSplit.exe 工具下载 ](https://scimence.gitee.io/filesplit/fileSplit.exe)
