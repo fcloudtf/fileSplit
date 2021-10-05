@@ -1,13 +1,17 @@
 ﻿服务器资源目录(https://gitee.com/scimence/fileSplit/raw/master/)
-本地资源目录(E:\tmp\fileSplit\)
+本地资源目录(E:\SVN\workSpace\fileSplit\)
 
 待更新文件(
 
-.gitignore(27f4959052307ad8478fe6ca5aa7dec6)
-fileSplit.exe(992a87e43d80ae11b5dd4933ce693229)
-LICENSE(836e0aa7ec7a55f65434733bf980975)
-note.html(2db692e52dec574db1c0b22aae0d07a8)
+.gitignore(d5ce11e8a704495f48248f5e8fadd53c)
+fileSplit.exe(c7ad7657e7f755a5b0213fcfb56f705c)
+fileSplit.ico(b3f930a8381c38ca4ad7e08a4ef3ba60)
+LICENSE(fdfe62362d0f026651ab1c9af9b55660)
+note.html(5ce1aae9ecc611bd0d1394ee3ff8e4f2)
 README.md(bdd7cf16fda3d00cefec1e40704c54c)
+files/fileSplit.psd.rar(ea0c8c3656f6759393c433fd2c39860d)
+files/fileSplit_20180830.7z(dc229ca5481c021ada64fd3d4e0bd2f7)
 files/fileSplit_20180830.7z.zip(8ba1b237bc68e98794796340349ec2cf)
+files/fileSplit_20200519.7z.zip(6471ebb315815539255fde61640b2219)
 
 )待更新文件
